@@ -5,7 +5,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: ragamatch-backend
+    container_name: ragamatch-backend-prod
     ports:
       - "${BACKEND_PORT:-8000}:8000"
     restart: unless-stopped
@@ -21,6 +21,12 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 1G
 
   frontend:
     build:
@@ -28,7 +34,7 @@ services:
       dockerfile: Dockerfile
       args:
         - VITE_API_URL=${VITE_API_URL:-http://localhost:8000}
-    container_name: ragamatch-frontend
+    container_name: ragamatch-frontend-prod
     ports:
       - "80:80"
     restart: unless-stopped
@@ -37,7 +43,13 @@ services:
         condition: service_healthy
     networks:
       - raga-net
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
 
 networks:
   raga-net:
-    driver: bridge
+    driver: bridge 
