@@ -2,8 +2,8 @@ import { useState } from 'react'
 import './App.css'
 import logo from './assets/finale_logo.png';
 import templeBg from './assets/redo_background.png';
-// import mandala from './assets/Gemini_Generated_Image_jf3k7ojf3k7ojf3k-removebg-preview.png';
 
+//sfsfsfsfssdfsf
 function App() {
   const [file, setFile] = useState(null);
   const [result, setResult] = useState(null);
@@ -16,7 +16,10 @@ function App() {
     const formData = new FormData();
     formData.append('file', selectedFile);
     try {
-      const res = await fetch('http://localhost:8000/predict/', { method: 'POST', body: formData });
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/predict/`, {
+        method: 'POST',
+        body: formData
+      });
       if (!res.ok) {
         console.error('Upload failed with status:', res.status);
         setLoading(false);
@@ -63,7 +66,6 @@ function App() {
           </label>
         </div>
         {result && <div className="result">The Raga is <span className="raga-name">{result}</span></div>}
-        {/* Mandala image removed as requested */}
       </main>
     </div>
   );
